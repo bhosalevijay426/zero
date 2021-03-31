@@ -1,0 +1,248 @@
+{
+  "version": 2,
+  "cli": { "defaultCollection": "@nrwl/nest" },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": { "style": "@emotion/styled" },
+      "library": { "style": "@emotion/styled", "linter": "eslint" }
+    }
+  },
+  "projects": {
+    "ew-zero-api": {
+      "root": "apps/ew-zero-api",
+      "sourceRoot": "apps/ew-zero-api/src",
+      "projectType": "application",
+      "prefix": "ew-zero-api",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ew-zero-api",
+            "main": "apps/ew-zero-api/src/main.ts",
+            "tsConfig": "apps/ew-zero-api/tsconfig.app.json",
+            "assets": ["apps/ew-zero-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ew-zero-api/src/environments/environment.ts",
+                  "with": "apps/ew-zero-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": { "buildTarget": "ew-zero-api:build" }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/ew-zero-api/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ew-zero-api"],
+          "options": {
+            "jestConfig": "apps/ew-zero-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": { "syncVersions": false }
+        }
+      }
+    },
+    "ew-zero": {
+      "root": "apps/ew-zero",
+      "sourceRoot": "apps/ew-zero/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ew-zero",
+            "index": "apps/ew-zero/src/index.html",
+            "main": "apps/ew-zero/src/main.tsx",
+            "polyfills": "apps/ew-zero/src/polyfills.ts",
+            "tsConfig": "apps/ew-zero/tsconfig.app.json",
+            "assets": [
+              "apps/ew-zero/src/favicon.ico",
+              "apps/ew-zero/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ew-zero/src/environments/environment.ts",
+                  "with": "apps/ew-zero/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": { "buildTarget": "ew-zero:build" },
+          "configurations": {
+            "production": { "buildTarget": "ew-zero:build:production" }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ew-zero/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ew-zero"],
+          "options": {
+            "jestConfig": "apps/ew-zero/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": { "syncVersions": false }
+        }
+      }
+    },
+    "ew-zero-e2e": {
+      "root": "apps/ew-zero-e2e",
+      "sourceRoot": "apps/ew-zero-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ew-zero-e2e/cypress.json",
+            "tsConfig": "apps/ew-zero-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ew-zero:serve"
+          },
+          "configurations": {
+            "production": { "devServerTarget": "ew-zero:serve:production" }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/ew-zero-e2e/**/*.{js,ts}"] }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "options": { "syncVersions": false }
+        }
+      }
+    },
+    "ui-zero-core": {
+      "root": "libs/ui/zero-core",
+      "sourceRoot": "libs/ui/zero-core/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/zero-core",
+            "tsConfig": "libs/ui/zero-core/tsconfig.lib.json",
+            "project": "libs/ui/zero-core/package.json",
+            "entryFile": "libs/ui/zero-core/src/index.ts",
+            "external": [
+              "react",
+              "react-dom",
+              "@emotion/styled",
+              "@emotion/react"
+            ],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [{ "glob": "README.md", "input": ".", "output": "." }]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/zero-core/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/zero-core"],
+          "options": {
+            "jestConfig": "libs/ui/zero-core/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-zero-forms": {
+      "root": "libs/ui/zero-forms",
+      "sourceRoot": "libs/ui/zero-forms/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/ui/zero-forms",
+            "tsConfig": "libs/ui/zero-forms/tsconfig.lib.json",
+            "project": "libs/ui/zero-forms/package.json",
+            "entryFile": "libs/ui/zero-forms/src/index.ts",
+            "external": [
+              "react",
+              "react-dom",
+              "@emotion/styled",
+              "@emotion/react"
+            ],
+            "babelConfig": "@nrwl/react/plugins/bundle-babel",
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [{ "glob": "README.md", "input": ".", "output": "." }]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/zero-forms/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui/zero-forms"],
+          "options": {
+            "jestConfig": "libs/ui/zero-forms/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}

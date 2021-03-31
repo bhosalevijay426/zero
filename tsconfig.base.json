@@ -1,0 +1,23 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@energyweb/zero-ui-core": ["libs/ui/zero-core/src/index.ts"],
+      "@energyweb/zero-ui-forms": ["libs/ui/zero-forms/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
